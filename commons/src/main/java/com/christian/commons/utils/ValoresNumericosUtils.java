@@ -1,0 +1,30 @@
+package com.christian.commons.utils;
+
+
+import com.christian.commons.exceptions.DatoInvalidoException;
+
+import java.math.BigDecimal;
+
+public class ValoresNumericosUtils {
+
+    public static <N extends Number> void validarNumeroRequerido(N numero) {
+        if (numero == null)
+            throw new DatoInvalidoException("El valor numérico es requerido");
+    }
+
+    public static void validarEnteroPositivo(Integer entero, String mensaje) {
+
+        validarNumeroRequerido(entero);
+
+        if (entero < 0)
+            throw new DatoInvalidoException(mensaje);
+    }
+
+    public static void validarBigDecimalPositivo(BigDecimal numero, String mensaje) {
+
+        validarNumeroRequerido(numero);
+
+        if (numero.compareTo(BigDecimal.ZERO) < 0)
+            throw new DatoInvalidoException(mensaje);
+    }
+}
