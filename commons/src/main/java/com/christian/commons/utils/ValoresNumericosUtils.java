@@ -27,4 +27,12 @@ public class ValoresNumericosUtils {
         if (numero.compareTo(BigDecimal.ZERO) < 0)
             throw new DatoInvalidoException(mensaje);
     }
+
+    public static void validarRangoShort(Short numero, short min, short max, String mensaje) {
+
+        validarNumeroRequerido(numero);
+
+        if (numero < min || numero > max)
+            throw new IllegalArgumentException(mensaje);
+    }
 }
