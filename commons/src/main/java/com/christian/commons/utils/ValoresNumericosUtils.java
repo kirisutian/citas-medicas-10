@@ -20,6 +20,14 @@ public class ValoresNumericosUtils {
             throw new DatoInvalidoException(mensaje);
     }
 
+    public static void validarLongPositivo(Long numero, String mensaje) {
+
+        validarNumeroRequerido(numero);
+
+        if (numero < 0)
+            throw new DatoInvalidoException(mensaje);
+    }
+
     public static void validarBigDecimalPositivo(BigDecimal numero, String mensaje) {
 
         validarNumeroRequerido(numero);
@@ -33,6 +41,6 @@ public class ValoresNumericosUtils {
         validarNumeroRequerido(numero);
 
         if (numero < min || numero > max)
-            throw new IllegalArgumentException(mensaje);
+            throw new DatoInvalidoException(mensaje);
     }
 }
