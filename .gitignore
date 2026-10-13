@@ -21,6 +21,7 @@ target/
 servicio-a
 servicio-b
 .env
+data
 
 ### NetBeans ###
 /nbproject/private/
