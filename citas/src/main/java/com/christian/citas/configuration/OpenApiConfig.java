@@ -1,7 +1,10 @@
 package com.christian.citas.configuration;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +14,8 @@ import java.util.List;
 @Configuration
 public class OpenApiConfig {
 
+    final String schemeName = "bearerAuth";
+
     @Bean
     public OpenAPI openAPI() {
         return new OpenAPI().info(new Info()
@@ -19,11 +24,18 @@ public class OpenApiConfig {
                 .description("API para la gestión de citas médicas"))
                 .servers(List.of(
                         new Server()
-                                .url("http://localhost:8083")
-                                .description("Servidor de localhost"),
-                        new Server()
                                 .url("http://localhost:8090/api/citas")
-                                .description("Servidor de API Gateway")
-                ));
+                                .description("Servidor de API Gateway"),
+                        new Server()
+                                .url("http://localhost:8083")
+                                .description("Servidor de localhost")
+                ))
+                .components(new Components().addSecuritySchemes(schemeName,
+                        new SecurityScheme()
+                                .name(schemeName)
+                                .type(SecurityScheme.Type.HTTP)
+                                .scheme("bearer")
+                                .bearerFormat("JWT")))
+                .addSecurityItem(new SecurityRequirement().addList(schemeName));
     }
 }
