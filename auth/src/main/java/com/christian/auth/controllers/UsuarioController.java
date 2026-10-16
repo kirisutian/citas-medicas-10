@@ -2,14 +2,10 @@ package com.christian.auth.controllers;
 
 import java.util.Set;
 
+import com.christian.auth.dto.UsuarioUpdateRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.christian.auth.dto.UsuarioRequest;
 import com.christian.auth.dto.UsuarioResponse;
@@ -32,11 +28,19 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity<UsuarioResponse> registrar(@Valid @RequestBody UsuarioRequest request) {
-        return ResponseEntity.ok(usuarioService.registrar(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.registrar(request));
+    }
+
+    @PutMapping("/{username}")
+    public ResponseEntity<UsuarioResponse> actualizar(
+            @PathVariable String username,
+            @Valid @RequestBody UsuarioUpdateRequest request) {
+        return ResponseEntity.ok(usuarioService.actualizar(username, request));
     }
 
     @DeleteMapping("/{username}")
-    public ResponseEntity<UsuarioResponse> eliminar(@PathVariable String username) {
-        return ResponseEntity.ok(usuarioService.eliminar(username));
+    public ResponseEntity<Void> eliminar(@PathVariable String username) {
+        usuarioService.eliminar(username);
+        return ResponseEntity.noContent().build();
     }
 }
